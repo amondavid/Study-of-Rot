@@ -1,8 +1,14 @@
 import express from 'express'
+import { connectDB } from './config/database.js'
+
+
 import { logger } from './middlewares/logger.js'
+
 
 const app = express()
 const PORT = 5000 /* changed port to distinquish it from the 3000 one used in the tutorial */
+
+connectDB()
 
 const workList = [
   {
@@ -51,7 +57,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/works', (request, response) => {
-  response.render('works/index')
+  response.render('works/index', {workList: workList})
 })
 
 app.get('/works/:slug', (request, response) => {
@@ -66,7 +72,7 @@ app.get('/works/:slug', (request, response) => {
 })
 
 app.get('/creators', (request, response) => {
-  response.render('creators/index')
+  response.render('creators/index', {creatorList: creatorList})
 })
 
 app.get('/creators/:slug', (request, response) => {

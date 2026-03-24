@@ -6,10 +6,13 @@
   <%- include('../includes/header') %>
 
   <main>
-    <p>Works:</p>
+    <p>Creators:</p>
     <ul>
-        <li><a href="/works/no-longer-human">No Longer Human</a></li>
-        <li><a href="/works/goodnight-punpun">Goodnight Punpun</a></li>
+      <% creatorList.forEach(creator => { %>
+        <li>
+          <a href="/creators/<%= creator.slug %>"><%= creator.name %></a>
+        </li>
+     <% }) %>
     </ul>
   </main>
 

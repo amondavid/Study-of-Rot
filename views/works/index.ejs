@@ -6,10 +6,13 @@
   <%- include('../includes/header') %>
 
   <main>
-    <p>Creators:</p>
+    <p>Works:</p>
     <ul>
-        <li><a href="/creators/dazai-osamu">Dazai Osamu</a></li>
-        <li><a href="/creators/asano-inio">Asano Inio</a></li>
+      <% workList.forEach(work => { %>
+        <li>
+          <a href="/works/<%= work.slug %>"><%= work.name %></a>
+        </li>
+     <% }) %>
     </ul>
   </main>
 

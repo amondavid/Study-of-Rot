@@ -6,4 +6,4 @@ const connectDB = async () => { /*'async' signifies that this function takes tim
   .catch(error => console.error(error))
 }
 
-export { connectDB }
+export {connectDB}

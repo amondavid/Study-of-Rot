@@ -1,8 +1,9 @@
 import express from 'express'
-import { connectDB } from './config/database.js'
+import {connectDB} from './config/database.js'
+import {Work} from './models/work.js'
+import {Creator} from './models/creator.js'
 
-
-import { logger } from './middlewares/logger.js'
+import {logger} from './middlewares/logger.js'
 
 
 const app = express()
@@ -65,7 +66,7 @@ app.get('/works/:slug', (request, response) => {
   const foundWork = workList.find(work => work.slug === urlSlug)
 
   if (foundWork) {
-    response.render('works/show', {foundWork: foundWork} )}
+    response.render('works/show', {foundWork: foundWork})}
   else {
     response.status(404).render('error')
   }
@@ -80,7 +81,7 @@ app.get('/creators/:slug', (request, response) => {
   const foundCreator = creatorList.find(creator => creator.slug === urlSlug)
 
   if (foundCreator) {
-    response.render('creators/show', {foundCreator: foundCreator} )}
+    response.render('creators/show', {foundCreator: foundCreator})}
   else {
     response.status(404).render('error')
   }

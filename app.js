@@ -3,11 +3,11 @@ import {connectDB} from './config/database.js'
 import {Work} from './models/work.js'
 import {Creator} from './models/creator.js'
 
-import {logger} from './middlewares/logger.js'
+// import {logger} from './middlewares/logger.js'
 
 
 const app = express()
-const PORT = 5000 /* changed port to distinquish it from the 3000 one used in the tutorial */
+const PORT = 5000 // changed port to distinquish it from the 3000 one used in the tutorial 
 
 connectDB()
 
@@ -48,6 +48,7 @@ const creatorList = [
 
 app.set('view engine', 'ejs')
 
+app.use(express.urlencoded({extended: true}))
 
 /* app.use(logger) */
 
@@ -59,6 +60,28 @@ app.get('/', (request, response) => {
 
 app.get('/works', (request, response) => {
   response.render('works/index', {workList: workList})
+})
+
+app.get('/works/new', (request, response) => {
+  response.render('works/new')
+})
+
+app.post('/works', async (request, response) => {
+  try {
+    const work = new Work({
+      name: request.body.name,
+      date: request.body.date,  
+      creator: request.body.creator,
+      description: request.body.description,
+      slug: request.body.slug 
+    })
+    await work.save()
+
+    response.send('Work created')
+  } catch (error) {
+    console.error(error)
+    response.send('Error: The work could not be created')
+  }
 })
 
 app.get('/works/:slug', (request, response) => {
@@ -74,6 +97,28 @@ app.get('/works/:slug', (request, response) => {
 
 app.get('/creators', (request, response) => {
   response.render('creators/index', {creatorList: creatorList})
+})
+
+app.get('/creators/new', (request, response) => {
+  response.render('creators/new')
+})
+
+app.post('/creators', async (request, response) => {
+  try {
+    const creator = new Creator({
+      name: request.body.name,
+      date: request.body.date,  
+      work: request.body.work,
+      description: request.body.description,
+      slug: request.body.slug 
+    })
+    await creator.save()
+
+    response.send('Work created')
+  } catch (error) {
+    console.error(error)
+    response.send('Error: The work could not be created')
+  }
 })
 
 app.get('/creators/:slug', (request, response) => {

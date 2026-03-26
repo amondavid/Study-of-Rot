@@ -1,3 +1,4 @@
+//decided to have models seperate from 'app.js' for better organization
 import mongoose from 'mongoose'
 
 const creatorSchema = new mongoose.Schema({
@@ -9,4 +10,4 @@ const creatorSchema = new mongoose.Schema({
 })
 const Creator = mongoose.model('Creator', creatorSchema)
 
-export {creatorSchema}
+export {Creator}

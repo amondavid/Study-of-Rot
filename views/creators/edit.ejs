@@ -8,12 +8,12 @@
   <main>
 
     <h2>Edit a creator entry</h2>
-    <form action="/creators<%= foundCreator.slug %>" method="POST">
-      <input type="text" value="<%+ foundCreator.name %>" name="name" placeholder="name" required /><br/>
-      <input type="text" value="<%+ foundCreator.date %>"  name="date" placeholder="date" required /><br/>
-      <input type="text" value="<%+ foundCreator.work %>"  name="work" placeholder="work" required /><br/>
-      <input type="text" value="<%+ foundCreator.description %>"  name="description" placeholder="description" required /><br/>
-      <input type="text" value="<%+ foundCreator.slug %>"  name="slug" placeholder="slug" required /><br/>
+    <form action="/creators/<%= foundCreator.slug %>" method="POST">
+      <input type="text" value="<%= foundCreator.name %>" name="name" placeholder="name" required /><br/>
+      <input type="text" value="<%= foundCreator.date %>"  name="date" placeholder="date" required /><br/>
+      <input type="text" value="<%= foundCreator.work %>"  name="work" placeholder="work" required /><br/>
+      <input type="text" value="<%= foundCreator.description %>"  name="description" placeholder="description" required /><br/>
+      <input type="text" value="<%= foundCreator.slug %>"  name="slug" placeholder="slug" required /><br/>
       <button>Save</button>
     </form>
   </main>

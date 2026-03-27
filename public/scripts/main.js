@@ -1,11 +1,9 @@
-//const myImage = document.querySelector("img");
+document.querySelectorAll('.illustration').forEach(image => {
+  image.addEventListener('click', () => { 
+  window.open(image.src)
+})
+})
 
-//myImage.addEventListener("click", () => {
-  //const mySrc = myImage.getAttribute("src");
-  //if (mySrc === "images/apostle.png") {
-    //myImage.setAttribute("src", "images/cactus.png");
-  //} else {
-    //myImage.setAttribute("src", "images/apostle.png");
-  //}
-//});
-
+//document.querySelectorAll('.illustration') scans all pages for elements with the class 'illustration.
+//.forEach(image => creates a for loop, I labeled the items 'image'
+//'click' is a predefined event, clicking atcivates the event

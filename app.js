@@ -52,12 +52,14 @@ app.use(express.urlencoded({extended: true}))
 
 /* app.use(logger) */
 
-/* app.use(express.static('public')) */
+app.use(express.static('public')) 
 
+// main page
 app.get('/', (request, response) => {
   response.render('index')
 })
 
+//works list
 app.get('/works', async (request, response) => {
   try {
     const works = await Work.find({}).exec()
@@ -69,6 +71,7 @@ app.get('/works', async (request, response) => {
   
 })
 
+//form: create new work entry
 app.get('/works/new', (request, response) => {
   response.render('works/new')
 })
@@ -84,13 +87,14 @@ app.post('/works', async (request, response) => {
     })
     await work.save()
 
-    response.send('Work created')
+    response.send('Work entry created')
   } catch (error) {
     console.error(error)
-    response.send('Error: The work could not be created')
+    response.send('Error: The work entry could not be created')
   }
 })
 
+// individual work
 app.get('/works/:slug', async (request, response) => {
   try {
     const work = await Work.findOne({slug: request.params.slug}).exec()
@@ -101,10 +105,55 @@ app.get('/works/:slug', async (request, response) => {
     }
   } catch (error) {
     console.error(error)
-    response.status(500).send('Error: Could not retrieve work.')
+    response.status(500).send('Error: Could not retrieve work entry.')
   }
 })
 
+//form: edit work entry
+app.get('/works/:slug/edit', async (request, response) => {
+  try {
+    const slug =  request.params.slug
+    const work = await Work.findOne({slug: slug}).exec()
+    if (!work) throw new Error('Work entry not found')
+
+    response.render('works/edit', {foundWork: work})
+  }catch(error) {
+    console.error(error)
+    response.status(404).send('Could not find the work entry you\'re looking for.')
+}
+    })
+
+    
+app.post('/works/:slug', async (request, response) => {
+  try {
+    const work = await Work.findOneAndUpdate(
+      {slug: request.params.slug},
+      request.body,
+      {new: true}
+    )
+
+    response.redirect(`/works/${work.slug}`)
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The work entry could not be created.')
+  }
+})
+
+
+//delete work entry: just add '/delete' at the end of the relevant slug
+app.get('/works/:slug/delete', async (request, response) => {
+  try {
+    await Work.findOneAndDelete({slug: request.params.slug})
+
+    response.redirect('/works')
+  }catch (error) {
+    console.error()
+    response.send('Error: No work entry was deleted.')
+  }
+})
+
+
+//creator list
 app.get('/creators', async (request, response) => {
   try {
     const creators = await Creator.find({}).exec()
@@ -116,6 +165,7 @@ app.get('/creators', async (request, response) => {
   
 })
 
+//form: create new creator entry
 app.get('/creators/new', (request, response) => {
   response.render('creators/new')
 })
@@ -131,13 +181,14 @@ app.post('/creators', async (request, response) => {
     })
     await creator.save()
 
-    response.send('Work created')
+    response.send('Creator entry created')
   } catch (error) {
     console.error(error)
-    response.send('Error: The work could not be created')
+    response.send('Error: The creator entry could not be created')
   }
 })
 
+//indiviudual creator page
 app.get('/creators/:slug', async (request, response) => {
   try {
     const creator = await Creator.findOne({slug: request.params.slug}).exec()
@@ -148,22 +199,49 @@ app.get('/creators/:slug', async (request, response) => {
     }
   } catch (error) {
     console.error(error)
-    response.status(500).send('Error: Could not retrieve creator.')
+    response.status(500).send('Error: Could not retrieve creator entry.')
   }
 })
 
+//form: edit creator entry
 app.get('/creators/:slug/edit', async (request, response) => {
   try {
     const slug =  request.params.slug
     const creator = await Creator.findOne({slug: slug}).exec()
-    if (creator) {
-      response.render('creators/show', {foundCreator: creator})
-    } else {
-      response.status(404).render('error')
-    }
-  } catch (error) {
+    if (!creator) throw new Error('Creator entry not found')
+
+    response.render('creators/edit', {foundCreator: creator})
+  }catch(error) {
     console.error(error)
-    response.status(500).send('Error: Could not retrieve creator.')
+    response.status(404).send('Could not find the creator entry you\'re looking for.')
+}
+    })
+
+
+app.post('/creators/:slug', async (request, response) => {
+  try {
+    const creator = await Creator.findOneAndUpdate(
+      {slug: request.params.slug},
+      request.body,
+      {new: true}
+    )
+
+    response.redirect(`/creators/${creator.slug}`)
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The creator entry could not be created.')
+  }
+})
+
+//delete creator entry: just add '/delete' at the end of the relevant slug
+app.get('/creators/:slug/delete', async (request, response) => {
+  try {
+    await Creator.findOneAndDelete({slug: request.params.slug})
+
+    response.redirect('/creators')
+  }catch (error) {
+    console.error()
+    response.send('Error: No creator entry was deleted.')
   }
 })
 
@@ -171,7 +249,7 @@ app.get('/illustrations', (request, response) => {
   response.render('illustrations')
 })
 
-app.get('/about', (request, response) => {  /* still static, to be changed later */
+app.get('/about', (request, response) => {  
   response.render('about')
 })
 

@@ -4,10 +4,17 @@ html {
   font-family: "Fira Code", monospace;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-family: "Zen Old Mincho", serif;
       font-weight: 400;
     font-style: normal;
+  color: #F7F5F2;
+}
+
+nav {
+  text-align: center;
+  font-size: 14px;
+  line-height: 21px;
   color: #F7F5F2;
 }
 
@@ -26,8 +33,8 @@ h2 {
 }
 
 p, li {
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 16px;
+  line-height: 24px;
   color: #F7F5F2;
 }
 
@@ -41,7 +48,7 @@ body {
 a {
   text-decoration: none;
   border: none;
-  color: #7f43c3; /* you can revisit this once you settle accent color */
+  color: #cc0000; /* you can revisit this once you settle accent color */
 }
 
 img {
@@ -51,12 +58,27 @@ img {
   border: none;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 620px) {
+  body {
+    width: 100%;
+    padding: 0 16px 16px 16px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 { font-size: 28px; line-height: 36px; }
+  h2 { font-size: 24px; line-height: 32px; }
+  p, li, nav { font-size: 14px; line-height: 22px; }
+}
+
+/*@media (min-width: 768px) {
   p, li {
     font-size: 16px;
     line-height: 24px;
   }
 }
+
 
 
 /*@media (min-width:1024px) {

@@ -11,7 +11,7 @@ const PORT = 5000 // changed port to distinquish it from the 3000 one used in th
 
 connectDB()
 
-const workList = [
+/*const workList = [
   {
     name: "No Longer Human",
     date: "1948",
@@ -44,7 +44,7 @@ const creatorList = [
     slug: "asano-inio"
   }
 ]
-
+*/
 
 app.set('view engine', 'ejs')
 
@@ -58,8 +58,15 @@ app.get('/', (request, response) => {
   response.render('index')
 })
 
-app.get('/works', (request, response) => {
-  response.render('works/index', {workList: workList})
+app.get('/works', async (request, response) => {
+  try {
+    const works = await Work.find({}).exec()
+    response.render('works/index', {workList: works})
+  } catch (error) {
+    console.error(error)
+    response.status(500).send('Error: could not retrieve works.')
+  }
+  
 })
 
 app.get('/works/new', (request, response) => {
@@ -84,19 +91,29 @@ app.post('/works', async (request, response) => {
   }
 })
 
-app.get('/works/:slug', (request, response) => {
-  const urlSlug = request.params.slug
-  const foundWork = workList.find(work => work.slug === urlSlug)
-
-  if (foundWork) {
-    response.render('works/show', {foundWork: foundWork})}
-  else {
-    response.status(404).render('error')
+app.get('/works/:slug', async (request, response) => {
+  try {
+    const work = await Work.findOne({slug: request.params.slug}).exec()
+    if (work) {
+      response.render('works/show', {foundWork: work})
+    } else {
+      response.status(404).render('error')
+    }
+  } catch (error) {
+    console.error(error)
+    response.status(500).send('Error: Could not retrieve work.')
   }
 })
 
-app.get('/creators', (request, response) => {
-  response.render('creators/index', {creatorList: creatorList})
+app.get('/creators', async (request, response) => {
+  try {
+    const creators = await Creator.find({}).exec()
+    response.render('creators/index', {creatorList: creators})
+  } catch (error) {
+    console.error(error)
+    response.status(500).send('Error: could not retrieve creators.')
+  }
+  
 })
 
 app.get('/creators/new', (request, response) => {
@@ -121,14 +138,32 @@ app.post('/creators', async (request, response) => {
   }
 })
 
-app.get('/creators/:slug', (request, response) => {
-  const urlSlug = request.params.slug
-  const foundCreator = creatorList.find(creator => creator.slug === urlSlug)
+app.get('/creators/:slug', async (request, response) => {
+  try {
+    const creator = await Creator.findOne({slug: request.params.slug}).exec()
+    if (creator) {
+      response.render('creators/show', {foundCreator: creator})
+    } else {
+      response.status(404).render('error')
+    }
+  } catch (error) {
+    console.error(error)
+    response.status(500).send('Error: Could not retrieve creator.')
+  }
+})
 
-  if (foundCreator) {
-    response.render('creators/show', {foundCreator: foundCreator})}
-  else {
-    response.status(404).render('error')
+app.get('/creators/:slug/edit', async (request, response) => {
+  try {
+    const slug =  request.params.slug
+    const creator = await Creator.findOne({slug: slug}).exec()
+    if (creator) {
+      response.render('creators/show', {foundCreator: creator})
+    } else {
+      response.status(404).render('error')
+    }
+  } catch (error) {
+    console.error(error)
+    response.status(500).send('Error: Could not retrieve creator.')
   }
 })
 

@@ -12,8 +12,8 @@ h1, h2, h3 {
 
 nav {
   text-align: center;
-  font-size: 14px;
-  line-height: 21px;
+  font-size: 16px;
+  line-height: 24px;
   color: #F7F5F2;
 }
 
@@ -37,6 +37,16 @@ p, li {
   color: #F7F5F2;
 }
 
+li {
+  margin-bottom: 12px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
 body {
   width: 600px;
   margin: 0 auto;
@@ -49,6 +59,10 @@ a {
   text-decoration: none;
   border: none;
   color: #cc0000; /* you can revisit this once you settle accent color */
+}
+
+li a {
+  color: #aaaaaa;
 }
 
 img {
